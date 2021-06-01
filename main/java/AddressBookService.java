@@ -1,6 +1,13 @@
+import java.time.LocalDate;
 import java.util.List;
 
 public class AddressBookService {
+
+    public List<AddressBookContacts> readAddressBookForDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) {
+        if (ioService.equals(IOService.DB_IO))
+            return addressBookServiceDB.getAddressBookForDateRange(startDate, endDate);
+        return null;
+    }
 
     public enum IOService {DB_IO}
 
