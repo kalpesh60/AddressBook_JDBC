@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class AddressBookServiceTest {
     @Test
@@ -30,5 +31,12 @@ public class AddressBookServiceTest {
         List<AddressBookContacts> employeePayrollData = addressBookService.readAddressBookForDateRange(AddressBookService
                                                          .IOService.DB_IO,startDate, endDate);
         Assertions.assertEquals(4, employeePayrollData.size());
+    }
+
+    @Test
+    public void givenAddressBook_WhenRetrieved_ShouldReturnCountOfCity() {
+        AddressBookService addressBookService = new AddressBookService();
+        int NumberOfContactWithCity = addressBookService.countAddressbookByCity("Panvel");
+        Assertions.assertEquals(3,NumberOfContactWithCity);
     }
 }

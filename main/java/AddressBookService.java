@@ -1,18 +1,13 @@
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class AddressBookService {
-
-    public List<AddressBookContacts> readAddressBookForDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) {
-        if (ioService.equals(IOService.DB_IO))
-            return addressBookServiceDB.getAddressBookForDateRange(startDate, endDate);
-        return null;
-    }
-
     public enum IOService {DB_IO}
 
     private List<AddressBookContacts> addressBookContactsList;
     private AddressBookServiceDB addressBookServiceDB;
+    private Map<String, Integer> contactByCityMap;
 
     public AddressBookService() {
         addressBookServiceDB = AddressBookServiceDB.getInstance();
@@ -41,5 +36,15 @@ public class AddressBookService {
         if (ioService.equals(IOService.DB_IO))
                 this.addressBookContactsList = addressBookServiceDB.readData();
         return this.addressBookContactsList;
+    }
+
+    public List<AddressBookContacts> readAddressBookForDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) {
+        if (ioService.equals(IOService.DB_IO))
+            return addressBookServiceDB.getAddressBookForDateRange(startDate, endDate);
+        return null;
+    }
+
+    public int countAddressbookByCity(String city) {
+        return addressBookServiceDB.getContactByCity(city);
     }
 }

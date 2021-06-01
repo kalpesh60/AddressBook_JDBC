@@ -1,7 +1,9 @@
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddressBookServiceDB {
     private PreparedStatement addressBookDataStatement;
@@ -113,5 +115,20 @@ public class AddressBookServiceDB {
             e.printStackTrace();
         }
         return addressBookContactsList;
+    }
+
+    public int getContactByCity(String city) {
+        int cityCount = 0;
+        String sql = String.format("select City, count(FirstName) from addressbook where City = '%s';", city);
+        try (Connection connection = addressBookServiceDB.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                cityCount = resultSet.getInt("count(FirstName)");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cityCount;
     }
 }
