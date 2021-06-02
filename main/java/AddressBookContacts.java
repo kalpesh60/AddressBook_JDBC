@@ -28,6 +28,43 @@ public class AddressBookContacts {
     public AddressBookContacts(int id, String firstName, String lastName, String address, String city, String state, int zip, int phoneNo, String email) {
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public int getPhoneNo() {
+        return phoneNo;
+    }
+
+    public int getZip() {
+        return zip;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+
     @Override
     public String toString() {
         return "AddressBookContacts{" +

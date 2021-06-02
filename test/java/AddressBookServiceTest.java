@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 public class AddressBookServiceTest {
@@ -47,5 +48,25 @@ public class AddressBookServiceTest {
         addressBookService.addNewContact("vikas", "Mane", "pune", "pune", "Mah", 1234, 156262, "sap@gal.com", "2020-01-02");
         boolean result = addressBookService.AddressBookInSyncWithDB("vikas");
         Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void givenMultipleContact_WhenAdded_ShouldSyncWithDB() throws SQLException, InterruptedException {
+        AddressBookService addressBookService = new AddressBookService();
+        List<AddressBookContacts> addressBookContacts = addressBookService.readAddressBookData(AddressBookService.IOService.DB_IO);
+        AddressBookContacts[] addressBookContact1 = { new AddressBookContacts(5,"Kapil","Mane","Navi Mumbai","Navi Mumbai","Mah",
+                12984,526341,"kapil@gmail.com","2020-05-18"),
+                new AddressBookContacts(6,"Vishesh","Tane","Nagpur","Nagpur","Mah",
+                        66833,852963,"Vishesh@gmail.com","2019-07-13"),
+                new AddressBookContacts(7,"Manoj","dholi","Mumbai","Mumbai","Mah",
+                        977653,755889,"manoj@gmail.com","2019-09-06"),};
+        addressBookService.addMultipleContactsToDBUsingThreads(Arrays.asList(addressBookContact1));
+        boolean result1 = addressBookService.AddressBookInSyncWithDB("Kapil");
+        boolean result2 = addressBookService.AddressBookInSyncWithDB("Vishesh");
+        boolean result3 = addressBookService.AddressBookInSyncWithDB("Manoj");
+        System.out.println(addressBookContacts);
+        Assertions.assertTrue(result1);
+        Assertions.assertTrue(result2);
+        Assertions.assertTrue(result3);
     }
 }
