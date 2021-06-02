@@ -10,9 +10,9 @@ public class AddressBookContacts {
     public int zip;
     public int phoneNo;
     public String email;
-    public String type;
+    public String date;
 
-    public AddressBookContacts(int id, String firstName, String lastName, String address, String city, String state, int zip, int phoneNo, String email, String type) {
+    public AddressBookContacts(int id, String firstName, String lastName, String address, String city, String state, int zip, int phoneNo, String email, String date) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,7 +22,10 @@ public class AddressBookContacts {
         this.zip = zip;
         this.phoneNo = phoneNo;
         this.email = email;
-        this.type = type;
+        this.date = date;
+    }
+
+    public AddressBookContacts(int id, String firstName, String lastName, String address, String city, String state, int zip, int phoneNo, String email) {
     }
 
     @Override
@@ -37,7 +40,6 @@ public class AddressBookContacts {
                 ", zip=" + zip +
                 ", phoneNo=" + phoneNo +
                 ", email='" + email + '\'' +
-                ", type='" + type + '\'' +
                 '}';
     }
 
@@ -46,6 +48,11 @@ public class AddressBookContacts {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddressBookContacts that = (AddressBookContacts) o;
-        return id == that.id && zip == that.zip && phoneNo == that.phoneNo && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(email, that.email) && Objects.equals(type, that.type);
+        return id == that.id && zip == that.zip && phoneNo == that.phoneNo && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(email, that.email) && Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, address, city, state, zip, phoneNo, email, date);
     }
 }

@@ -1,16 +1,25 @@
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class AddressBookService {
     public enum IOService {DB_IO}
 
     private List<AddressBookContacts> addressBookContactsList;
-    private AddressBookServiceDB addressBookServiceDB;
-    private Map<String, Integer> contactByCityMap;
+    private AddressBookDBService addressBookServiceDB;
 
     public AddressBookService() {
-        addressBookServiceDB = AddressBookServiceDB.getInstance();
+        addressBookServiceDB = AddressBookDBService.getInstance();
+    }
+
+    public List<AddressBookContacts> readAddressBookData(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            this.addressBookContactsList = addressBookServiceDB.readData();
+        return this.addressBookContactsList;
+    }
+
+    public int countAddressbookByCity(String city) {
+        return addressBookServiceDB.getContactByCity(city);
     }
 
     public void updateLastName(String firstName, String lastName) {
@@ -22,20 +31,18 @@ public class AddressBookService {
 
     public boolean AddressBookInSyncWithDB(String firstName) {
         List<AddressBookContacts> addressBookContactsList = addressBookServiceDB.getAddressBookData(firstName);
-        return addressBookContactsList.get(0).equals(getAddressBookData(firstName));
+        return Objects.equals(addressBookContactsList.get(0), getAddressBookData(firstName));
     }
 
     private AddressBookContacts getAddressBookData(String firstName) {
-        return this.addressBookContactsList.stream()
-                .filter(addressBookDataItem -> addressBookDataItem.firstName.equals(firstName))
-                .findFirst()
-                .orElse(null);
-    }
+        AddressBookContacts addressBookContacts = null;
+        for (AddressBookContacts addressBookDataItem : addressBookContactsList)
+            if (addressBookDataItem.firstName.equals(firstName)) {
+                addressBookContacts = addressBookDataItem;
+                break;
+            }
+        return addressBookContacts;
 
-    public List<AddressBookContacts> readAddressBookData(IOService ioService) {
-        if (ioService.equals(IOService.DB_IO))
-                this.addressBookContactsList = addressBookServiceDB.readData();
-        return this.addressBookContactsList;
     }
 
     public List<AddressBookContacts> readAddressBookForDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) {
@@ -44,7 +51,8 @@ public class AddressBookService {
         return null;
     }
 
-    public int countAddressbookByCity(String city) {
-        return addressBookServiceDB.getContactByCity(city);
+    public List<AddressBookContacts> addNewContact(String firstName, String lastName, String address, String city, String state, int zip, int phoneNo, String email, String date) {
+        addressBookContactsList.add(addressBookServiceDB.addNewContact(firstName, lastName, address, city, state, zip, phoneNo, email, date));
+        return addressBookContactsList;
     }
 }
