@@ -1,0 +1,26 @@
+{
+  "contacts": [
+    {
+      "Id": 1,
+      "firstName": "abc",
+      "lastName": "bca",
+      "address": "bandra",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "zip": 401202,
+      "phoneNum": 8451625386,
+      "email": "abc@gmail.com"
+    },
+    {
+      "Id": 2,
+      "firstName": "klm",
+      "lastName": "mlk",
+      "address": "Shirala",
+      "city": "Sangli",
+      "state": "Maharashtra",
+      "zip": 408574,
+      "phoneNum": 9865358748,
+      "email": "klm@gmail.com"
+    }
+  ]
+}

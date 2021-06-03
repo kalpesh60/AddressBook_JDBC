@@ -1,3 +1,6 @@
+import com.google.gson.Gson;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -69,4 +72,22 @@ public class AddressBookServiceTest {
         Assertions.assertTrue(result2);
         Assertions.assertTrue(result3);
     }
+
+    private AddressBookContacts[] getContactList() {
+        Response response = RestAssured.get(RestAssured.baseURI +"/contacts");
+        System.out.println("Contact entries in JSONServer:\n" + response.asString());
+        String responseBody = response.getBody().asString();
+        System.out.println("Response Body is =>  " + responseBody);
+        AddressBookContacts[] arrayOfContact = new Gson().fromJson(response.asString(), AddressBookContacts[].class);
+        return arrayOfContact;
+    }
+
+    @Test
+    public void givenContactDataInJSONServer_WhenRetrieved_ShouldMatchTheCount() {
+        AddressBookContacts[] arrayOfContact = getContactList();
+        RestApi restApi = new RestApi(Arrays.asList(arrayOfContact));
+        long entries = restApi.countEntries();
+        Assertions.assertEquals(2, entries);
+    }
 }
+

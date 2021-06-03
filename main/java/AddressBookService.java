@@ -6,7 +6,14 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AddressBookService {
-    public enum IOService {DB_IO}
+    public AddressBookService(List<AddressBookContacts> asList) {
+    }
+
+    public long countEntries() {
+        return addressBookContactsList.size();
+    }
+
+    public enum IOService {DB_IO,REST_IO}
 
     private List<AddressBookContacts> addressBookContactsList;
     private AddressBookDBService addressBookServiceDB;
@@ -64,14 +71,10 @@ public class AddressBookService {
         asList.forEach(addressBookContacts -> {
             Runnable task = () -> { addressAdditionStatus.put(addressBookContacts.hashCode(), false);
                 System.out.println("Multiple Added:" + Thread.currentThread().getName());
-                try {
-                    this.addNewContact(addressBookContacts.getFirstName(), addressBookContacts.getLastName(),
-                            addressBookContacts.getAddress(), addressBookContacts.getCity(), addressBookContacts.getState(),
-                            addressBookContacts.getPhoneNo(), addressBookContacts.getZip(), addressBookContacts.getEmail(),
-                            addressBookContacts.getDate());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                this.addNewContact(addressBookContacts.getFirstName(), addressBookContacts.getLastName(),
+                        addressBookContacts.getAddress(), addressBookContacts.getCity(), addressBookContacts.getState(),
+                        addressBookContacts.getPhoneNo(), addressBookContacts.getZip(), addressBookContacts.getEmail(),
+                        addressBookContacts.getDate());
                 addressAdditionStatus.put(addressBookContacts.hashCode(), true);
                 System.out.println("Multiple Contact Added:" + Thread.currentThread().getName()); };
             Thread thread = new Thread(task, addressBookContacts.getFirstName());
