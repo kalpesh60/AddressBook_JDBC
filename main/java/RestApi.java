@@ -14,4 +14,18 @@ public class RestApi {
     public void addContactToList(AddressBookContacts addressBookContacts) {
         this.contactList.add(addressBookContacts);
     }
+
+    public AddressBookContacts getContactData(String firstName) {
+        return this.contactList.stream()
+                               .filter(contactItem -> contactItem.firstName.equals(firstName))
+                               .findFirst()
+                               .orElse(null);
+    }
+
+    public void updateContactInfo(String firstName, int zip) {
+        AddressBookContacts addressBookContacts = this.getContactData(firstName);
+        if (addressBookContacts != null) {
+            addressBookContacts.zip = zip;
+        }
+    }
 }

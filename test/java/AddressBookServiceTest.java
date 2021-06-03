@@ -113,5 +113,20 @@ public class AddressBookServiceTest {
         long entries = restApi.countEntries();
         Assertions.assertEquals(3, entries);
     }
-}
 
+    @Test
+    public void givenNewDataToContact_WhenUpdated_ShouldMatch200Response() {
+        RestApi restApi;
+        AddressBookContacts[] arrayOfContact = getContactList();
+        restApi = new RestApi(Arrays.asList(arrayOfContact));
+        restApi.updateContactInfo("visa", 356);
+        AddressBookContacts addressBookContacts = restApi.getContactData("visa");
+        String personJson = new Gson().toJson(addressBookContacts);
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type", "application/json");
+        request.body(personJson);
+        Response response = request.put(RestAssured.baseURI + "/contacts/" +addressBookContacts.id);
+        int statusCode = response.getStatusCode();
+        Assertions.assertEquals(200, statusCode);
+    }
+}
