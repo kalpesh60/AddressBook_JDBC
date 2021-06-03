@@ -2,12 +2,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RestApi {
-    List<AddressBookContacts> dataList;
+    List<AddressBookContacts> contactList;
     public RestApi(List<AddressBookContacts> dataList) {
-        this.dataList = new ArrayList<>(dataList);
+        this.contactList = new ArrayList<>(contactList);
     }
 
     public long countEntries() {
-        return this.dataList.size();
+        return this.contactList.size();
+    }
+
+    public void addContactToList(AddressBookContacts addressBookContacts) {
+        this.contactList.add(addressBookContacts);
     }
 }

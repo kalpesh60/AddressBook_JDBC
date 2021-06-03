@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -88,6 +89,29 @@ public class AddressBookServiceTest {
         RestApi restApi = new RestApi(Arrays.asList(arrayOfContact));
         long entries = restApi.countEntries();
         Assertions.assertEquals(2, entries);
+    }
+
+    public Response addContactToJsonServer(AddressBookContacts addressBookContacts) {
+        String personJson = new Gson().toJson(addressBookContacts);
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type", "application/json");
+        request.body(personJson);
+        return request.post("/contacts");
+    }
+
+    @Test
+    public void givenNewContact_WhenAdded_ShouldMatch201ResponseAndCount() {
+        RestApi restApi;
+        AddressBookContacts[] arrayOfContact = getContactList();
+        restApi = new RestApi(Arrays.asList(arrayOfContact));
+        AddressBookContacts addressBookContacts = new AddressBookContacts(3,"visa","musa","PP","PP","Mah","786",765,"vishal@gmail.com","2-2=2020");
+        Response response = addContactToJsonServer(addressBookContacts);
+        int statusCode = response.getStatusCode();
+        Assertions.assertEquals(201, statusCode);
+        addressBookContacts = new Gson().fromJson(response.asString(), AddressBookContacts.class);
+        restApi.addContactToList(addressBookContacts);
+        long entries = restApi.countEntries();
+        Assertions.assertEquals(3, entries);
     }
 }
 
