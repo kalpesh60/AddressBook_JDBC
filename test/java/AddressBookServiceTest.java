@@ -129,4 +129,17 @@ public class AddressBookServiceTest {
         int statusCode = response.getStatusCode();
         Assertions.assertEquals(200, statusCode);
     }
+
+    @Test
+    public void givenContactToDelete_WhenDeleted_ShouldMatch200Response() {
+        RestApi restApi;
+        AddressBookContacts[] arrayOfContact = getContactList();
+        restApi = new RestApi(Arrays.asList(arrayOfContact));
+        AddressBookContacts addressBookContacts = restApi.getContactData("visa");
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type", "application/json");
+        Response response = request.delete("/contacts/" +addressBookContacts.id);
+        int statusCode = response.getStatusCode();
+        Assertions.assertEquals(200, statusCode);
+    }
 }
