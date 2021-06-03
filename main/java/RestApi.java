@@ -3,7 +3,7 @@ import java.util.List;
 
 public class RestApi {
     List<AddressBookContacts> contactList;
-    public RestApi(List<AddressBookContacts> dataList) {
+    public RestApi(List<AddressBookContacts> contactList) {
         this.contactList = new ArrayList<>(contactList);
     }
 

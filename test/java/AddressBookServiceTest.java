@@ -104,7 +104,7 @@ public class AddressBookServiceTest {
         RestApi restApi;
         AddressBookContacts[] arrayOfContact = getContactList();
         restApi = new RestApi(Arrays.asList(arrayOfContact));
-        AddressBookContacts addressBookContacts = new AddressBookContacts(3,"visa","musa","PP","PP","Mah","786",765,"vishal@gmail.com","2-2=2020");
+        AddressBookContacts addressBookContacts = new AddressBookContacts(3,"visa","musa","PP","PP","Mah",786,765,"vishal@gmail.com","2-2=2020");
         Response response = addContactToJsonServer(addressBookContacts);
         int statusCode = response.getStatusCode();
         Assertions.assertEquals(201, statusCode);
